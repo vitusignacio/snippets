@@ -1,0 +1,16 @@
+{
+  "name": "coffeescripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "jasmine": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "compile": "coffee --compile . && browserify page.js -o bundle.js",
+    "test": "coffee --compile . && jasmine"
+  },
+  "author": "",
+  "license": "ISC"
+}

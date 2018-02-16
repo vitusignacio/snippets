@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="http://designmodo.github.io/Flat-UI/dist/css/flat-ui.css" />
+
+  <!-- JQuery and its stuffs -->
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="http://designmodo.github.io/Flat-UI/dist/js/flat-ui.min.js"></script>
+  <script type="text/javascript" src="./bundle.js"></script>
+
+  <style>
+    .form-container {
+      border: 2px solid #e80000;
+      margin: 3rem 0;
+      padding: 3rem;
+    }
+    .ok {
+      border: 2px solid #00ad34;
+    }
+    .sj-validation-message {
+      color: #e80000;
+    }
+  </style>
+</head>
+<body>
+
+<section style="margin:auto; padding: 16rem 0; width:400px">
+  <section class="form-container ok">
+    <h1>Form #1</h1>
+    <br />
+    <form id="form1" name="form1" class="needs-validation" action="/submit">
+      <div class="form-group sj-form-element">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" sj-required />
+          <p class="sj-validation-message"></p>
+        </div>
+      <div class="form-group sj-form-element">
+        <label for="email">Email address</label>
+        <input type="text" class="form-control" id="email" name="email" sj-required sj-email />
+        <p class="sj-validation-message"></p>
+      </div>
+      <div class="form-group sj-form-element">
+        <label for="pwd">Password</label>
+        <input type="password" class="form-control" id="pwd" name="pwd" sj-required />
+        <p class="sj-validation-message"></p>
+      </div>
+      <button type="submit" class="btn btn-primary" />Submit</button>
+    </form>
+  </section>
+
+  <section class="form-container">
+      <h1>Form #2</h1>
+      <br />
+      <form id="form2" name="form2" class="needs-validation" action="/submit">
+        <div class="form-group sj-form-element">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" />
+            <p class="sj-validation-message"></p>
+          </div>
+        <div class="form-group sj-form-element">
+          <label for="email">Email address</label>
+          <input type="text" class="form-control" id="email" name="email" />
+          <p class="sj-validation-message"></p>
+        </div>
+        <div class="form-group sj-form-element">
+          <label for="pwd">Password</label>
+          <input type="password" class="form-control" id="pwd" name="pwd" />
+          <p class="sj-validation-message"></p>
+        </div>
+        <button type="submit" class="btn btn-primary" />Submit</button>
+      </form>
+    </section>
+</section>
+
+</body>
+</html>
