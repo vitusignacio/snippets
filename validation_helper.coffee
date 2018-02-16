@@ -134,8 +134,7 @@ class ValidationHelper
               self.addValidation
                 name: j.name,
                 message: validatorErrors
-            # Make AJAX call to server to get validation data 
-            console.log self._validationResult
+            # Make AJAX call to server to get validation data
             if self._validationUrl?
               $.ajax(
                 method: self._validationUrlMethod
