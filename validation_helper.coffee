@@ -88,7 +88,35 @@ class ValidationHelper
         formData: formData
       )
   serializeForm: ->
-    $(@_formId).serializeArray()
+    data = $(@_formId).serializeArray()
+    # Get additional fields data
+    $(@_formId + ' :input[name]').each( ->
+      elem = $(this)
+      type = elem.prop('type')
+      name = elem.prop('name')
+      names = []
+      for i,j of data
+        names.push j.name
+      if (names.indexOf(name) == -1)
+        value = switch type
+          when 'checkbox'
+            if elem.is(':checked')
+              elem.val()
+            else
+              ''
+          when 'file' then elem.val()
+          when 'radio'
+            if elem.is(':checked')
+              elem.val()
+            else
+              ''
+          else 'na'
+        if value isnt 'na'
+          data.push
+            name: name
+            value: value
+    )
+    data
   validate: ->
     self = @
     formData = @serializeForm()

@@ -1,0 +1,7 @@
+$.ajax(
+  url: '/test',
+  type: 'POST',
+  dataType: 'json',
+  processData: false,
+  data: new FormData(this)
+);

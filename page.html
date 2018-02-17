@@ -36,7 +36,7 @@
   <section class="form-container ok">
     <h1>Form #1</h1>
     <br />
-    <form id="form1" name="form1" class="needs-validation" action="/submit">
+    <form id="form1" name="form1" class="needs-validation">
       <div class="form-group sj-form-element">
           <label for="username">Username</label>
           <input type="text" class="form-control" id="username" name="username" sj-required />
@@ -52,6 +52,50 @@
         <input type="password" class="form-control" id="pwd" name="pwd" sj-required />
         <p class="sj-validation-message"></p>
       </div>
+      <div class="form-group sj-form-element">
+        <label for="upload">Upload</label>
+        <input type="file" id="upload" name="upload" sj-required>
+        <p class="help-block">Only accept text (*.txt).</p>
+        <p class="sj-validation-message"></p>
+      </div>
+      <div class="form-group sj-form-element">
+        <header>Do you want to check something?</header>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="check" value="1"> Great, check me
+          </label>
+        </div>
+      </div>
+      <div class="form-group sj-form-element">
+        <header>Make your own selection</header>
+        <div class="radio">
+          <label>
+            <input type="radio" name="go" id="optionsRadios1" value="forward">
+            Go forward
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="go" id="optionsRadios2" value="backward">
+            Go backward
+          </label>
+        </div>
+      </div>
+      <div class="form-group sj-form-element">
+          <header>What do you want to do?</header>
+          <div class="radio">
+            <label>
+              <input type="radio" name="do" id="optionsRadios1" value="something">
+              Do something
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="do" id="optionsRadios2" value="nothing">
+              Don't do anything
+            </label>
+          </div>
+        </div>
       <button type="submit" class="btn btn-primary" />Submit</button>
     </form>
   </section>
@@ -59,7 +103,7 @@
   <section class="form-container">
       <h1>Form #2</h1>
       <br />
-      <form id="form2" name="form2" class="needs-validation" action="/submit">
+      <form id="form2" name="form2" class="needs-validation">
         <div class="form-group sj-form-element">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" />
