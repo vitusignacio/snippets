@@ -54,48 +54,52 @@
       </div>
       <div class="form-group sj-form-element">
         <label for="upload">Upload</label>
-        <input type="file" id="upload" name="upload" sj-required>
+        <input type="file" id="upload" name="upload" sj-required sj-custom="validate_txt_format">
         <p class="help-block">Only accept text (*.txt).</p>
         <p class="sj-validation-message"></p>
       </div>
       <div class="form-group sj-form-element">
         <header>Do you want to check something?</header>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" name="check" value="1"> Great, check me
+        <div>
+          <label class="checkbox" for="check">
+            <input type="checkbox" checked="" value="1" id="check" name="check" data-toggle="checkbox" class="custom-checkbox" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+              Great, check me
           </label>
+          <p class="sj-validation-message"></p>
         </div>
       </div>
       <div class="form-group sj-form-element">
         <header>Make your own selection</header>
-        <div class="radio">
-          <label>
-            <input type="radio" name="go" id="optionsRadios1" value="forward">
-            Go forward
+        <div>
+          <label class="radio">
+            <input type="radio" name="go" value="forward" data-toggle="radio" class="custom-radio" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+              Go forward
           </label>
         </div>
-        <div class="radio">
-          <label>
-            <input type="radio" name="go" id="optionsRadios2" value="backward">
-            Go backward
+        <div>
+          <label class="radio">
+            <input type="radio" name="go" value="backward" data-toggle="radio" class="custom-radio" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+              Go backward
           </label>
         </div>
+        <p class="sj-validation-message"></p>
       </div>
       <div class="form-group sj-form-element">
-          <header>What do you want to do?</header>
-          <div class="radio">
-            <label>
-              <input type="radio" name="do" id="optionsRadios1" value="something">
+        <header>What do you want to do?</header>
+        <div>
+          <label class="radio">
+            <input type="radio" name="do" value="something" data-toggle="radio" class="custom-radio" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
               Do something
-            </label>
-          </div>
-          <div class="radio">
-            <label>
-              <input type="radio" name="do" id="optionsRadios2" value="nothing">
-              Don't do anything
-            </label>
-          </div>
+          </label>
         </div>
+        <div>
+          <label class="radio">
+            <input type="radio" name="do" value="nothing" data-toggle="radio" class="custom-radio" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+              Don't do anything
+          </label>
+        </div>
+        <p class="sj-validation-message"></p>
+      </div>
       <button type="submit" class="btn btn-primary" />Submit</button>
     </form>
   </section>

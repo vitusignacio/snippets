@@ -5,3 +5,13 @@ $.ajax(
   processData: false,
   data: new FormData(this)
 );
+
+<label for="check">
+  <input type="checkbox" checked="checked" value="1" id="check" name="check" data-toggle="checkbox" class="custom-checkbox"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+    Great, check me
+</label>
+
+<label class="radio">
+  <input type="radio" name="go" value="option1" data-toggle="radio" checked="" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+    Radio is on
+</label>

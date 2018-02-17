@@ -17,7 +17,12 @@ $ ->
 
       switch formId 
         when '#form1'
-          helper = new ValidationHelper(formId, 'http://www.mocky.io/v2/5a8714cf3200006700f4e8d5')
+          helper = new ValidationHelper(formId, 'http://www.mocky.io/v2/5a8714cf3200006700f4e8d5', 
+            validate_txt_format: (elem, name, value) ->
+              return
+                result: value.indexOf('.txt') isnt -1
+                message: 'the field ' + name + ' must have text file'
+          )
         when '#form2'
           helper = new ValidationHelper(formId, null)
         else
