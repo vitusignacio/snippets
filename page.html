@@ -27,6 +27,9 @@
     .ok {
       border: 2px solid #00ad34;
     }
+    .sj-validation-indicator {
+      display: none;
+    }
     .sj-validation-message {
       color: #e80000;
     }
@@ -39,6 +42,10 @@
     <h1>Form #1</h1>
     <br />
     <form id="form1" name="form1" class="needs-validation">
+      <div class="sj-validation-indicator">
+        <img src="validation-indicator.gif" width="32" height="32" />
+        please wait, validating your form...
+      </div>
       <div class="form-group sj-form-element">
           <label for="username">Username</label>
           <input type="text" class="form-control" id="username" name="username" sj-required sj-required-message="the {field} is required" />
@@ -115,9 +122,13 @@
       <h1>Form #2</h1>
       <br />
       <form id="form2" name="form2" class="needs-validation">
+        <div class="sj-validation-indicator">
+          <img src="validation-indicator.gif" width="32" height="32" />
+          please wait, validating your other form...
+        </div>
         <div class="form-group sj-form-element">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" />
+            <input type="text" class="form-control" id="username" name="username" sj-required sj-required-message="The {field} is definitely required" />
             <p class="sj-validation-message"></p>
           </div>
         <div class="form-group sj-form-element">

@@ -5,7 +5,9 @@ class ValidationHelper
       language: navigator.language or navigator.userLanguage
       regex_email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     classes:
-      bootstrap_form_group: '.sj-form-element'
+      sj_form_group: '.sj-form-element'
+      sj_form_validation_indicator: '.sj-validation-indicator'
+      sj_form_validation_message: '.sj-validation-message'
       validation_error: 'has-error'
     errors:
       CUSTOM_FUNCTION_NOT_DEFINED: Error('The custom function is not defined')
@@ -65,9 +67,15 @@ class ValidationHelper
     return
   addValidation: (validator) ->
     @_validationResult.messages.push validator
+  disableSubmitButton: ->
+    $(@_formId).find(':input[type=submit]').prop 'disabled', true
+  enableSubmitButton: ->
+    $(@_formId).find(':input[type=submit]').prop 'disabled', false
+  hideValidationIndicator: ->
+    $(@_formId).find(ValidationHelper._sharedAttributes.classes.sj_form_validation_indicator).fadeOut 200
   showValidation: (elem, validator) ->
-    i = elem.parents(ValidationHelper._sharedAttributes.classes.bootstrap_form_group).find('.sj-validation-message')
-    j = elem.parents(ValidationHelper._sharedAttributes.classes.bootstrap_form_group)
+    i = elem.parents(ValidationHelper._sharedAttributes.classes.sj_form_group).find(ValidationHelper._sharedAttributes.classes.sj_form_validation_message)
+    j = elem.parents(ValidationHelper._sharedAttributes.classes.sj_form_group)
     if i.length?
       $(i).html('')
       $(i).css('display', 'none')
@@ -78,6 +86,8 @@ class ValidationHelper
         $(i).fadeIn(100)
       else
         $(j).removeClass ValidationHelper._sharedAttributes.classes.validation_error
+  showValidationIndicator: ->
+    $(@_formId).find(ValidationHelper._sharedAttributes.classes.sj_form_validation_indicator).fadeIn 200
   processValidation: (resolve, formData) ->
     self = @
     $.each(@_validationResult.messages, (i, j) ->
@@ -132,6 +142,8 @@ class ValidationHelper
   validate: ->
     self = @
     formData = @serializeForm()
+    @disableSubmitButton()
+    @showValidationIndicator()
     new Promise(
       (resolve, reject) ->
         if formData?
@@ -195,13 +207,19 @@ class ValidationHelper
                               n.message.push message
                           break
                     self.processValidation(resolve, formData)
+                    self.enableSubmitButton()
+                    self.hideValidationIndicator()
                   return
                 ).fail( -> 
                   console.warn 'Failed to contact validation service, fall back to client side validation'
                   self.processValidation(resolve, formData)
+                  self.enableSubmitButton()
+                  self.hideValidationIndicator()
                 )
             else
               self.processValidation(resolve, formData)
+              self.enableSubmitButton()
+              self.hideValidationIndicator()
             return
             # to here
           else

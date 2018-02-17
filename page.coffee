@@ -2,7 +2,7 @@ ValidationHelper = require('./validation_helper.js')
 
 sendDataToServer = (formData) ->
   $.ajax(
-    url: '/test',
+    url: 'http://server.local:8080/post.php',
     type: 'POST',
     async: true,
     contentType: false,
@@ -27,7 +27,7 @@ $ ->
           helper = null
 
       $(form).bind 'submit', (event) =>
-        $(form).find(':input[type=submit]').prop 'disabled', true
+        self = this
         event.preventDefault()
         if helper?
           new Promise((resolve, reject) ->
@@ -37,14 +37,12 @@ $ ->
                 if data.result is true
                   $(event.target).removeClass 'needs-validation'
                   $(event.target).addClass 'was-validated'
-                  sendDataToServer(new FormData(this))
+                  sendDataToServer(new FormData(self))
                 else
                   $(event.target).removeClass 'was-validated'
                   $(event.target).addClass 'needs-validation'
-                $(form).find(':input[type=submit]').prop 'disabled', false
               .catch (error) ->
                 # do something
-                $(form).find(':input[type=submit]').prop 'disabled', false
           )
         else
           console.log '[WARN] No validation helpers detected'
