@@ -2,6 +2,7 @@ class ValidationHelper
   # Class attributes
   @_sharedAttributes:
     constants:
+      language: navigator.language or navigator.userLanguage
       regex_email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     classes:
       bootstrap_form_group: '.sj-form-element'
@@ -10,17 +11,20 @@ class ValidationHelper
       CUSTOM_FUNCTION_NOT_DEFINED: Error('The custom function is not defined')
       CUSTOM_FUNCTION_NOT_RETURN_BOOLEAN: Error('The custom function does not return a proper result object with boolean value')
       FORM_DATA_IS_NULL: Error('Form data is null')
+      NO_CUSTOM_ERROR_PROVIDED: Error('No custom error message is provided')
       RESULTING_VALUE_INVALID: Error('The resulting value is not a valid object')
       VALIDATION_URL_FORM_ID_MUST_NOT_BE_NULL: Error('The form identifier must not be null')
-    messages:
-      IS_REQUIRED: 'the field {name} is required.'
-      IS_INVALID_EMAIL: 'the field {name} is not a valid email.'
     templates:
       validation_error: '<span>{message}</span><br />'
     validators:
-      required: 'sj-required'
       custom: 'sj-custom'
+      custom_message: 'sj-custom-message'
       email: 'sj-email'
+      email_message: 'sj-email-message'
+      required: 'sj-required'
+      required_message: 'sj-required-message'
+      regex: 'sj-regex'
+      regex_message: 'sj-regex-message'
   # Instance attributes
   _currentState:
     stateId: null
@@ -28,15 +32,21 @@ class ValidationHelper
   _customValidators: new Object()
   _formId: null
   _isValid: true
+  _localeInfo: null
   _validationUrl: null
   _validationUrlMethod: 'GET'
   _validationResult:
     error: false
     messages: []
   # Class content
-  constructor: (formId, validationUrl, customValidators) ->
+  constructor: (formId, validationUrl, localeInfo, customValidators) ->
     @_customValidators = customValidators
     @_formId = formId
+    if moment?
+      if localeInfo?
+        @_localeInfo = localeInfo.dateFormat
+      else
+        @_localeInfo = moment.localeData(ValidationHelper._sharedAttributes.constants.language).longDateFormat('L')
     @_validationUrl = validationUrl
     @loadStateFromServer()
   fetchState: ->
@@ -87,6 +97,8 @@ class ValidationHelper
         result: false
         formData: formData
       )
+  replacePlaceholders: (message, data) ->
+    message.replace('{field}', data.name)
   serializeForm: ->
     data = $(@_formId).serializeArray()
     # Get additional fields data
@@ -137,26 +149,32 @@ class ValidationHelper
                 k = elem.attr(n.toString())
                 if k?
                   switch n
-                    when ValidationHelper._sharedAttributes.validators.required
-                      if j.value.length == 0
-                        validatorErrors.push ValidationHelper._sharedAttributes.messages.IS_REQUIRED.replace('{name}', j.name)
-                    when ValidationHelper._sharedAttributes.validators.email
-                      unless ValidationHelper._sharedAttributes.constants.regex_email.test j.value
-                        validatorErrors.push ValidationHelper._sharedAttributes.messages.IS_INVALID_EMAIL.replace('{name}', j.name)
-                    when ValidationHelper._sharedAttributes.validators.custom # this requires sj-custom
-                        if k.length == 0
-                          throw Error(ValidationHelper._sharedAttributes.errors.CUSTOM_FUNCTION_NOT_DEFINED)
+                    when ValidationHelper._sharedAttributes.validators.custom # this requires sj-custom and/or sj-custom-message
+                      message = elem.attr(ValidationHelper._sharedAttributes.validators.custom_message)
+                      if k.length?
                         for l, func of self._customValidators
                           if func?
                             if func.name is k
                               fResult = func.call this, elem, j.name, j.value
-                              if typeof fResult is 'object'
-                                if not (typeof fResult.result is 'boolean')
-                                  throw Error(ValidationHelper._sharedAttributes.errors.CUSTOM_FUNCTION_NOT_RETURN_BOOLEAN)
-                                if fResult.result == false
-                                  validatorErrors.push fResult.message if fResult.message?
-                              else
-                                throw Error(ValidationHelper._sharedAttributes.errors.RESULTING_VALUE_INVALID)
+                              if fResult is false
+                                if message?
+                                  validatorErrors.push self.replacePlaceholders(message, j)
+                    when ValidationHelper._sharedAttributes.validators.email # sj-email and/or sj-email-message
+                      message = elem.attr(ValidationHelper._sharedAttributes.validators.email_message)
+                      unless ValidationHelper._sharedAttributes.constants.regex_email.test j.value
+                        if message?
+                          validatorErrors.push self.replacePlaceholders(message, j)
+                    when ValidationHelper._sharedAttributes.validators.regex # sj-regex and/or sj-regex-message
+                      regex = new RegExp(elem.attr(n))
+                      message = elem.attr(ValidationHelper._sharedAttributes.validators.regex_message)
+                      unless regex.test j.value
+                        if message?
+                          validatorErrors.push self.replacePlaceholders(message, j)
+                    when ValidationHelper._sharedAttributes.validators.required # sj-required and/or sj-required-message
+                      message = elem.attr(ValidationHelper._sharedAttributes.validators.required_message)
+                      if j.value.length is 0
+                        if message?
+                          validatorErrors.push self.replacePlaceholders(message, j)
                     else 
                       break
               self.addValidation
@@ -179,7 +197,7 @@ class ValidationHelper
                     self.processValidation(resolve, formData)
                   return
                 ).fail( -> 
-                  console.log '[WARN] Failed to contact validation service, fall back to client side validation'
+                  console.warn 'Failed to contact validation service, fall back to client side validation'
                   self.processValidation(resolve, formData)
                 )
             else

@@ -11,6 +11,8 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+  <!-- MomentJS -->
+  <script src="https://momentjs.com/downloads/moment.min.js"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="http://designmodo.github.io/Flat-UI/dist/js/flat-ui.min.js"></script>
@@ -39,22 +41,22 @@
     <form id="form1" name="form1" class="needs-validation">
       <div class="form-group sj-form-element">
           <label for="username">Username</label>
-          <input type="text" class="form-control" id="username" name="username" sj-required />
+          <input type="text" class="form-control" id="username" name="username" sj-required sj-required-message="the {field} is required" />
           <p class="sj-validation-message"></p>
         </div>
       <div class="form-group sj-form-element">
         <label for="email">Email address</label>
-        <input type="text" class="form-control" id="email" name="email" sj-required sj-email />
+        <input type="text" class="form-control" id="email" name="email" sj-required sj-email sj-required-message="the {field} is required" sj-email-message="the {field} is not a valid email" />
         <p class="sj-validation-message"></p>
       </div>
       <div class="form-group sj-form-element">
         <label for="pwd">Password</label>
-        <input type="password" class="form-control" id="pwd" name="pwd" sj-required />
+        <input type="password" class="form-control" id="pwd" name="pwd" sj-required sj-required-message="the {field} is required" />
         <p class="sj-validation-message"></p>
       </div>
       <div class="form-group sj-form-element">
         <label for="upload">Upload</label>
-        <input type="file" id="upload" name="upload" sj-required sj-custom="validate_txt_format">
+        <input type="file" id="upload" name="upload" sj-required sj-custom="validate_txt_format" sj-required-message="the {field} is required" sj-custom-message="the {field} requires a text file">
         <p class="help-block">Only accept text (*.txt).</p>
         <p class="sj-validation-message"></p>
       </div>
@@ -62,7 +64,7 @@
         <header>Do you want to check something?</header>
         <div>
           <label class="checkbox" for="check">
-            <input type="checkbox" checked="" value="1" id="check" name="check" data-toggle="checkbox" class="custom-checkbox" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+            <input type="checkbox" checked="" value="1" id="check" name="check" data-toggle="checkbox" class="custom-checkbox"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
               Great, check me
           </label>
           <p class="sj-validation-message"></p>
@@ -72,13 +74,13 @@
         <header>Make your own selection</header>
         <div>
           <label class="radio">
-            <input type="radio" name="go" value="forward" data-toggle="radio" class="custom-radio" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+            <input type="radio" name="go" value="forward" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
               Go forward
           </label>
         </div>
         <div>
           <label class="radio">
-            <input type="radio" name="go" value="backward" data-toggle="radio" class="custom-radio" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+            <input type="radio" name="go" value="backward" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
               Go backward
           </label>
         </div>
@@ -88,19 +90,24 @@
         <header>What do you want to do?</header>
         <div>
           <label class="radio">
-            <input type="radio" name="do" value="something" data-toggle="radio" class="custom-radio" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+            <input type="radio" name="do" value="something" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
               Do something
           </label>
         </div>
         <div>
           <label class="radio">
-            <input type="radio" name="do" value="nothing" data-toggle="radio" class="custom-radio" sj-required><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+            <input type="radio" name="do" value="nothing" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
               Don't do anything
           </label>
         </div>
         <p class="sj-validation-message"></p>
       </div>
+      <div class="sj-form-element">
+        <input type="hidden" name="hidden" value="test" />
+        <p class="sj-validation-message"></p>
+      </div>
       <button type="submit" class="btn btn-primary" />Submit</button>
+      <button type="reset" class="btn btn-default" />Reset</button>
     </form>
   </section>
 
