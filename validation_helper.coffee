@@ -72,7 +72,7 @@ class ValidationHelper
   enableSubmitButton: ->
     $(@_formId).find(':input[type=submit]').prop 'disabled', false
   hideValidationIndicator: ->
-    $(@_formId).find(ValidationHelper._sharedAttributes.classes.sj_form_validation_indicator).fadeOut 200
+    $(@_formId).find(ValidationHelper._sharedAttributes.classes.sj_form_validation_indicator).fadeOut(50)
   showValidation: (elem, validator) ->
     i = elem.parents(ValidationHelper._sharedAttributes.classes.sj_form_group).find(ValidationHelper._sharedAttributes.classes.sj_form_validation_message)
     j = elem.parents(ValidationHelper._sharedAttributes.classes.sj_form_group)
@@ -83,11 +83,11 @@ class ValidationHelper
         for message in validator.message
           $(i).append(ValidationHelper._sharedAttributes.templates.validation_error.replace('{message}', message))
         $(j).addClass ValidationHelper._sharedAttributes.classes.validation_error
-        $(i).fadeIn(100)
+        $(i).show()
       else
         $(j).removeClass ValidationHelper._sharedAttributes.classes.validation_error
   showValidationIndicator: ->
-    $(@_formId).find(ValidationHelper._sharedAttributes.classes.sj_form_validation_indicator).fadeIn 200
+    $(@_formId).find(ValidationHelper._sharedAttributes.classes.sj_form_validation_indicator).fadeIn(50)
   processValidation: (resolve, formData) ->
     self = @
     $.each(@_validationResult.messages, (i, j) ->
