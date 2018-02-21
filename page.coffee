@@ -9,7 +9,7 @@ sendDataToServer = (formData) ->
     cache: false,
     processData: false,
     data: formData
-  );
+  )
 
 $ ->
     $('.needs-validation').each( (index, form) ->
@@ -21,6 +21,7 @@ $ ->
             validate_txt_format: (elem, name, value) ->
               return value.indexOf('.txt') isnt -1
           )
+          helper._validationUrlMethod = 'POST'
         when '#form2'
           helper = new ValidationHelper(formId, null)
         else

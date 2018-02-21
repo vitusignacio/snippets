@@ -195,7 +195,8 @@ class ValidationHelper
             # Make AJAX call to server to get validation data
             if self._validationUrl?
               $.ajax(
-                method: self._validationUrlMethod
+                type: self._validationUrlMethod
+                data: formData
                 url: self._validationUrl
                 ).done( (response) ->
                   if (response?)
