@@ -1,4 +1,5 @@
-ValidationHelper = require('./validation_helper.js')
+ValidationHelper = require './validation_helper.js'
+MapHelper = require './map_helper.js'
 
 sendDataToServer = (formData) ->
   $.ajax(
@@ -11,7 +12,23 @@ sendDataToServer = (formData) ->
     data: formData
   )
 
+# Map stuffs
+window.initMap = ->
+  window.mapHelper = new MapHelper($('#google-map').get(0), LAT, LNG, 15) #TODO: Replace LAT, LNG with actual coordinate
+  return
+
 $ ->
+    # Map stuffs
+    $('#google-location-search').bind 'click', ->
+      value = $('#google-location').val()
+      window.mapHelper.getCoordinate(value).then( (marker) ->
+        window.mapHelper.addMarker marker.lat, marker.lng, null, null, window.sj, true, true
+        window.mapHelper.focus marker
+      ).catch( -> 
+        console.log '[WARN] Geocoding is not able to retrieve location data'
+      )
+
+    # Form stuffs
     $('.needs-validation').each( (index, form) ->
       formId = '#' + $(form).attr('id')
 
@@ -21,7 +38,7 @@ $ ->
             validate_txt_format: (elem, name, value) ->
               return value.indexOf('.txt') isnt -1
           )
-          helper._validationUrlMethod = 'POST'
+          # helper._validationUrlMethod = 'POST'
         when '#form2'
           helper = new ValidationHelper(formId, null)
         else
