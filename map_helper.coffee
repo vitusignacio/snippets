@@ -22,7 +22,7 @@ class MapHelper
   constructor: (element, lat, long, zoomLevel) ->
     self = @
     # Look for Map API key
-    $('script').each( (index) -> 
+    $('script').each( (index) ->
       elem = $(this)
       src = elem.attr 'src'
       if src?
@@ -49,7 +49,7 @@ class MapHelper
         lat: lat
         lng: long
       zoom: @_baseZoomLevel
-    );
+    )
   addMarker: (lat, long, label, title, image, isDraggable, isCleared) ->
     self = @
     self._draggedMarker = null
@@ -65,10 +65,10 @@ class MapHelper
         lat: lat
         lng: long
       title: if title? then title else MapHelper._sharedAttributes.constants.marker.unnamed_location
-    );
+    )
     marker.addListener 'dragend', -> # handle dragend event
       self.focus this, true # center it when dragging ends
-      self._draggedMarker = 
+      self._draggedMarker =
         lat: this.getPosition().lat()
         lng: this.getPosition().lng()
     marker.setMap @_map # show marker on map
