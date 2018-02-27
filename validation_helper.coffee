@@ -48,7 +48,9 @@ class ValidationHelper
       if localeInfo?
         @_localeInfo = localeInfo.dateFormat
       else
-        @_localeInfo = moment.localeData(ValidationHelper._sharedAttributes.constants.language).longDateFormat('L')
+        locale = moment.localeData(ValidationHelper._sharedAttributes.constants.language)
+        if locale?
+          @_localeInfo = locale.longDateFormat('L')
     @_validationUrl = validationUrl
     @loadStateFromServer()
   fetchState: ->
