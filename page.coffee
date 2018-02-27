@@ -22,7 +22,8 @@ $ ->
     $('#google-location-search').bind 'click', ->
       value = $('#google-location').val()
       window.mapHelper.getCoordinate(value).then( (marker) ->
-        window.mapHelper.addMarker marker.lat, marker.lng, null, null, window.sj, true, true
+        window.mapHelper.addMarker marker.lat, marker.lng, null, null, window.sj, true, true, (geoData) ->
+          console.log geoData
         window.mapHelper.focus marker
       ).catch( -> 
         console.log '[WARN] Geocoding is not able to retrieve location data'

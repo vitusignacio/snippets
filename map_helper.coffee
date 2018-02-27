@@ -50,7 +50,7 @@ class MapHelper
         lng: long
       zoom: @_baseZoomLevel
     )
-  addMarker: (lat, long, label, title, image, isDraggable, isCleared) ->
+  addMarker: (lat, long, label, title, image, isDraggable, isCleared, func) ->
     self = @
     self._draggedMarker = null
     if isCleared == true
@@ -71,6 +71,15 @@ class MapHelper
       self._draggedMarker =
         lat: this.getPosition().lat()
         lng: this.getPosition().lng()
+      geocoder = new google.maps.Geocoder
+      geocoder.geocode { 'location': self._draggedMarker }, (results, status) ->
+        if status is 'OK'
+          if results[0]?
+            func(
+              address_components: results[0].address_components,
+              formatted_address: results[0].formatted_address
+            )
+      return
     marker.setMap @_map # show marker on map
     @_markers.push marker # add a marker to collection
     return
