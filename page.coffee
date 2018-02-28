@@ -1,5 +1,6 @@
 ValidationHelper = require './validation_helper.js'
 MapHelper = require './map_helper.js'
+RgFormHelper = require './rgform_helper.js'
 
 sendDataToServer = (formData) ->
   $.ajax(
@@ -18,6 +19,8 @@ window.initMap = ->
   return
 
 $ ->
+    rgformHelper = new RgFormHelper()
+
     # Map stuffs
     $('#google-location-search').bind 'click', ->
       value = $('#google-location').val()
