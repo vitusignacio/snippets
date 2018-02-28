@@ -3,20 +3,22 @@ class RgFormHelper
     classes:
       spinner: '.js-spinner'
   constructor: ->
+    self = this
     # Track ajax
     $(document).ajaxStart( ->
-      console.log 'test'
-      RgFormHelper.showOverlay()
+      self.showOverlay()
       return
     ).ajaxStop( ->
-      RgFormHelper.hideOverlay()
+      self.hideOverlay()
       return
     )
     return
-  @showOverlay: ->
+  changePage: (step) ->
+    # do something to change page
+  showOverlay: ->
     $(RgFormHelper.constants.classes.spinner).show()
     return
-  @hideOverlay: ->
+  hideOverlay: ->
     $(RgFormHelper.constants.classes.spinner).hide()
     return
 
