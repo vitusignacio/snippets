@@ -52,20 +52,44 @@ class ValidationHelper
         if locale?
           @_localeInfo = locale.longDateFormat('L')
     @_validationUrl = validationUrl
-    @loadStateFromServer()
+    @bindEvents()
+    @loadStateToFields()
+  bindEvents: ->
+    self = this
+    $(@_formId).find('input[name]').bind 'change', (event) ->
+      self.setState()
+    $(@_formId).find('select[name]').bind 'change', (event) ->
+      self.setState()
+  clearState: ->
+    if localStorage?
+      localStorage.clear()
   fetchState: ->
     if localStorage?
-      localStorage.getItem('stateId')
+      localStorage.getItem('formData')
   setState: ->
     if localStorage?
-      localStorage.setItem('stateId', (new Date()).getTime())
+      localStorage.setItem('formData', JSON.stringify @serializeForm())
     return
-  loadStateFromServer: ->
+  loadStateToFields: ->
     # Make AJAX call to get state and other attributes
     if localStorage?
-      localStorage.setItem('stateId', (new Date()).getTime())
-    @_currentState.stateId = (new Date()).getTime()
-    @_currentState.others = []
+      data = JSON.parse localStorage.getItem('formData')
+      console.log data
+      for i, j in data
+        if i?
+          inputs = $(@_formId).find('input[name="' + i.name + '"]')
+          select = $(@_formId).find('select[name="' + i.name + '"]')
+          for a, b in [inputs, select]
+            elem = a
+            if elem.attr('type') is 'radio' or elem.attr('type') is 'checkbox'
+              if i.value?
+                for m, n in elem
+                  if $(m).val() is i.value
+                    $(m).prop 'checked', true
+                  else
+                    $(m).prop 'checked', false
+            else
+              $(elem).val i.value
     return
   addValidation: (validator) ->
     @_validationResult.messages.push validator

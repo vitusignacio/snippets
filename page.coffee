@@ -43,8 +43,6 @@ $ ->
               return value.indexOf('.txt') isnt -1
           )
           # helper._validationUrlMethod = 'POST'
-        when '#form2'
-          helper = new ValidationHelper(formId, null)
         else
           helper = null
 
