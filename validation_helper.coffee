@@ -18,6 +18,8 @@ class ValidationHelper
       VALIDATION_URL_FORM_ID_MUST_NOT_BE_NULL: Error('The form identifier must not be null')
     templates:
       validation_error: '<span>{message}</span><br />'
+    helpers:
+      friendly_name: 'sj-friendly-name'
     validators:
       custom: 'sj-custom'
       custom_message: 'sj-custom-message'
@@ -133,13 +135,19 @@ class ValidationHelper
         result: false
         formData: formData
       )
-  replacePlaceholders: (message, data) ->
-    message.replace('{field}', data.name)
+  replacePlaceholders: (message, data, elem) ->
+    if elem?
+      friendlyName = elem.attr(ValidationHelper._sharedAttributes.helpers.friendly_name)
+      console.log friendlyName
+      if friendlyName?
+        return message.replace('{field}', friendlyName)
+    
+    return message.replace('{field}', data.name)
   serializeForm: ->
     data = $(@_formId).serializeArray()
     # Get additional fields data
-    $(@_formId + ' :input[name]').each( ->
-      elem = $(this)
+    $(@_formId + ' :input[name]').each( (index, el) ->
+      elem = $(el)
       type = elem.prop('type')
       name = elem.prop('name')
       names = []
@@ -196,23 +204,23 @@ class ValidationHelper
                               fResult = func.call this, elem, j.name, j.value
                               if fResult is false
                                 if message?
-                                  validatorErrors.push self.replacePlaceholders(message, j)
+                                  validatorErrors.push self.replacePlaceholders(message, j, elem)
                     when ValidationHelper._sharedAttributes.validators.email # sj-email and/or sj-email-message
                       message = elem.attr(ValidationHelper._sharedAttributes.validators.email_message)
                       unless ValidationHelper._sharedAttributes.constants.regex_email.test j.value
                         if message?
-                          validatorErrors.push self.replacePlaceholders(message, j)
+                          validatorErrors.push self.replacePlaceholders(message, j, elem)
                     when ValidationHelper._sharedAttributes.validators.regex # sj-regex and/or sj-regex-message
                       regex = new RegExp(elem.attr(n))
                       message = elem.attr(ValidationHelper._sharedAttributes.validators.regex_message)
                       unless regex.test j.value
                         if message?
-                          validatorErrors.push self.replacePlaceholders(message, j)
+                          validatorErrors.push self.replacePlaceholders(message, j, elem)
                     when ValidationHelper._sharedAttributes.validators.required # sj-required and/or sj-required-message
                       message = elem.attr(ValidationHelper._sharedAttributes.validators.required_message)
                       if j.value.length is 0
                         if message?
-                          validatorErrors.push self.replacePlaceholders(message, j)
+                          validatorErrors.push self.replacePlaceholders(message, j, elem)
                     else 
                       break
               self.addValidation
