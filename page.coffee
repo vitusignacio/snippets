@@ -21,6 +21,10 @@ window.initMap = ->
 $ ->
     rgformHelper = new RgFormHelper()
 
+    $('input[type=number]:enabled').bind 'keypress', (e) ->
+      e.preventDefault() if e.which < 48 or e.which > 57
+      return
+
     # Map stuffs
     $('#google-location-search').bind 'click', ->
       value = $('#google-location').val()
