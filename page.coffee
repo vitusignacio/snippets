@@ -21,9 +21,25 @@ window.initMap = ->
 $ ->
     rgformHelper = new RgFormHelper()
 
-    $('input[type=number]:enabled').bind 'keypress', (e) ->
+    $('input[data-type=currency]:enabled').bind('keyup', (e) ->
+      $this = $(this)
+      value = $this.val()
+      value = value.replace /[\D\s\._\-]+/g, ''
+      value = if value then parseInt(value) else 0
+      $this.val ->
+        if value is 0 then '' else value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      return
+    ).bind('keypress', (e) ->
       e.preventDefault() if e.which < 48 or e.which > 57
       return
+    )
+
+    $('#send').bind 'click', (e) ->
+      e.preventDefault()
+      formData = new FormData($('#money-form').get(0))
+      money = formData.get('money').replace(/,/g, '')
+      formData.set 'money', money
+      sendDataToServer(formData)
 
     # Map stuffs
     $('#google-location-search').bind 'click', ->
